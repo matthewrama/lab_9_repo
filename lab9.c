@@ -12,22 +12,22 @@ Sect 0027
 // RecordType
 struct RecordType
 {
-	int id;
+    int id;
     char name;
     int order;
-    struct RecordType *next;
+    struct RecordType *next;  //added to record type so it can the next record can be accessed 
 };
 
 // Fill out this structure
 struct HashType
 {
-	struct RecordType **records;
+	struct RecordType **records; //pointer to records
 };
 
 // Compute the hash function
 int hash(int x, int hashSz)
 {
-	return x % hashSz;
+	return x % hashSz; //hash function with x modulo hashSize
 }
 
 // parses input file to an integer array
@@ -108,19 +108,19 @@ int main(void)
 {
 	struct RecordType *pRecords;
 	int recordSz = 0;
-	int hashSz = 10;
+	int hashSz = 23;
 	recordSz = parseData("input.txt", &pRecords);
 	printRecords(pRecords, recordSz);
 	// Your hash implementation
 
-	struct HashType hashTable;
+    struct HashType hashTable;
     hashTable.records = (struct RecordType **)malloc(sizeof(struct RecordType *) * hashSz);
     for (int i = 0; i < hashSz; i++)
     {
         hashTable.records[i] = NULL;
     }
 
-    // Hashing and inserting records into the hash table
+    //hashing and inserting into hash table
     for (int i = 0; i < recordSz; i++)
     {
         int hashedIndex = hash(pRecords[i].id, hashSz);
@@ -128,10 +128,10 @@ int main(void)
         hashTable.records[hashedIndex] = &pRecords[i];
     }
 
-    // Displaying records in the hash table
+    //output of hashtable
     displayRecordsInHash(&hashTable, hashSz);
 
-    // Freeing allocated memory
+    //its free real estate
     for (int i = 0; i < recordSz; i++)
     {
         free(pRecords[i].next);
